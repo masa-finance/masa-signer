@@ -4,7 +4,10 @@
 
 `cp .env.dist .env`
 
-Change Address and Private Key in `.env`
+Change `Address` and `Private Key` in `.env` to according to your env.
+
+PRIVATE_KEY=  
+ADDRESS=
 
 ## Running the signer with Docker
 
