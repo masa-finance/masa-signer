@@ -1,3 +1,4 @@
+// @ts-ignore
 import express, {
   Express,
   Request,
@@ -10,10 +11,10 @@ import {
   MasaSessionRouter,
   sessionCheckHandler,
 } from "@masa-finance/masa-express";
-import {
-  CreateSoulNameResult,
-  SoulNameErrorCodes,
-} from "@masa-finance/masa-sdk";
+import type { NetworkName } from "@masa-finance/masa-sdk";
+import { Masa, SupportedNetworks } from "@masa-finance/masa-sdk";
+import { providers, Wallet } from "ethers";
+// @ts-ignore
 import cors from "cors";
 
 const app: Express = express();
@@ -73,20 +74,45 @@ export const soulNameRouter: Router = express.Router();
 soulNameRouter.use(sessionMiddleware);
 soulNameRouter.use(sessionCheckHandler as never);
 
-soulNameRouter.post("/store", (request: Request, response: Response) => {
-  const result: CreateSoulNameResult = {
-    success: false,
-    message: "Hello world!",
-    errorCode: SoulNameErrorCodes.UnknownError,
-  };
-  console.log(result);
-  response.json(result);
-});
+const signSBT = async (request: Express.RequestSession, response: Response) => {
+  const networkName = request.body.network as NetworkName;
 
-app.use("/soul-name", soulNameRouter);
+  const network = SupportedNetworks[networkName];
+
+  if (!network) return;
+
+  const provider = new providers.JsonRpcProvider(network.rpcUrls[0]);
+  const wallet = new Wallet(process.env.PRIVATE_KEY as string, provider);
+
+  console.log(`Address: ${await wallet.getAddress()}`);
+
+  const masa = new Masa({
+    signer: wallet,
+    networkName,
+  });
+
+  const contractAddress = process.env.ADDRESS as string;
+  const { sign } = await masa.sssbt.connect(contractAddress);
+
+  if (sign) {
+    const signResult = await sign(request.session.user.address);
+    if (signResult) {
+      const result = {
+        contractAddress,
+        ...signResult,
+      };
+      console.log(result);
+      response.json(result);
+    }
+  }
+};
+
+soulNameRouter.post("/sign", signSBT as never);
+
+app.use("/sbt", soulNameRouter);
 
 const port = process.env.PORT || 4000; // use whatever port you need
 
 app.listen(port, () => {
-  console.log(`Express app listening at 'http://localhost:${port}'`);
+  console.log(`Express app listening at 'http://0.0.0.0:${port}'`);
 });

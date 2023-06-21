@@ -1,76 +1,71 @@
-<!-- TOC -->
-  * [Setup](#setup)
-  * [Usage with the Masa CLI](#usage-with-the-masa-cli)
-<!-- TOC -->
+# Masa Signer
 
-## Setup
+## Configuration
+
+`cp .env.dist .env`
+
+Change Address and Private Key in `.env`
+
+## Running the signer with Docker
+
+Build:  
+`docker build . -t masa-signer`
+
+Run:
 
 ```shell
-$ yarn
-$ yarn start
+docker run -it -p 4000:4000 --env-file ./.env masa-signer
 
-yarn run v1.22.19
-$ nodemon ./src/server.ts
-[nodemon] 2.0.22
-[nodemon] to restart at any time, enter `rs`
-[nodemon] watching path(s): *.*
-[nodemon] watching extensions: ts,json
-[nodemon] starting `ts-node ./src/server.ts`
-Express app listening at 'http://localhost:4000'
+Express app listening at 'http://0.0.0.0:4000'
 ```
 
-## Usage with the Masa CLI
+## Using it with the cli
+
+Config:
 
 ```shell
-$ masa settings set api-url http://localhost:4000/
-  __  __                            ____   _       ___
- |  \/  |   __ _   ___    __ _     / ___| | |     |_ _|
- | |\/| |  / _` | / __|  / _` |   | |     | |      | |
- | |  | | | (_| | \__ \ | (_| |   | |___  | |___   | |
- |_|  |_|  \__,_| |___/  \__,_|    \____| |_____| |___|
-
-Key 'api-url' successfully set!
+masa settings set api-url http://localhost:4000
 ```
 
+Login with the cli:
+
 ```shell
-$ masa login
-  __  __                            ____   _       ___
- |  \/  |   __ _   ___    __ _     / ___| | |     |_ _|
- | |\/| |  / _` | / __|  / _` |   | |     | |      | |
- | |  | | | (_| | \__ \ | (_| |   | |___  | |___   | |
- |_|  |_|  \__,_| |___/  \__,_|    \____| |_____| |___|
+masa login --verbose
+
+Masa CLI running with verbose output!
 
 Logging in
-Signing:
-'Welcome to 🌽Masa Finance!
+Getting '/session/check'
+{
+  {
+    getChallengeResponse: {
+    status: 200,
+    getChallengeResponseData: {
+    challenge: '8hK4GuVsFrkULhb16EnrnOoK2cK87Q1P',
+    expires: 'Fri, 21 Jul 2023 10:41:38 GMT'
+    },
+    cookie: 'my_fancy_session_name=s%3AkxvYzLCheuUqH6Cz8jwV3QAignKMdn1t.4PEdKI3ZDJpr7gKfH92cwe%2FdlTmF0emwt2vhLodjW%2BA; Domain=localhost; Path=/; Expires=Fri, 21 Jul 2023 10:41:38 GMT; SameSite=Lax'
+  }
+}
 
-Login with your soulbound web3 identity to unleash the power of DeFi.
-
-Your signature is valid till: Thu, 18 May 2023 10:00:11 GMT.
-Challenge: uxOJz9en7y6tWoaqC9wWJpmSab6ALcxA'
-
-Signature: '0x3ad1a93d68f3abffc841a768d0ed3df9f5335c0cab0263e7d9d944473b5c813402c75c0944534ebe3a40edd20a88c715332c4564e1ff4f65fbdb68a8641d48df1b'
-
-Logged in as:
-Address: '0x8ba2D360323e3cA85b94c6F7720B70aAc8D37a7a'
 ```
 
-service side:
+Sign:
 
 ```shell
-Express app listening at 'http://localhost:4000'
-has challenge undefined
-Session: {
-  "cookie": {
-    "originalMaxAge": 2592000000,
-    "expires": "2023-05-18T10:00:11.834Z",
-    "secure": false,
-    "httpOnly": false,
-    "domain": "localhost",
-    "path": "/",
-    "sameSite": "lax"
-  }
-} has no challenge, rejected!
-generated challenge! uxOJz9en7y6tWoaqC9wWJpmSab6ALcxA
-has challenge uxOJz9en7y6tWoaqC9wWJpmSab6ALcxA
+curl --location 'http://localhost:4000/sbt/sign' \
+  --header 'Cookie: my_fancy_session_name=s%3AkxvYzLCheuUqH6Cz8jwV3QAignKMdn1t.4PEdKI3ZDJpr7gKfH92cwe%2FdlTmF0emwt2vhLodjW%2BA; Domain=localhost; Path=/; Expires=Fri, 21 Jul 2023 10:41:38 GMT; SameSite=Lax' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "network": "goerli"
+}'
+
+{
+  "contractAddress":"0x1fCE0Ae50a8900f09E4A437F33E95313225Bb4b7",
+  "authorityAddress":"0x3c8D9f130970358b7E8cbc1DbD0a1EbA6EBE368F",
+  "signatureDate":1687344282503,
+  "signature":"0xbb74a5c7c47a62888168d24b4487e5cd44415a7944cfeedfaba946151319e80e628676bb3d6d67f04fc5b4740392f7a9a350be2a4625f3de1fa4985ad4af13fd1c"
+}
 ```
+
+Now the owner of the address that was used to login is allowed to mint the SBT using the SSSBT mint operation.
