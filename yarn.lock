@@ -200,7 +200,7 @@
   dependencies:
     "@ethersproject/logger" "^5.7.0"
 
-"@ethersproject/providers@5.7.2":
+"@ethersproject/providers@5.7.2", "@ethersproject/providers@^5.7.2":
   version "5.7.2"
   resolved "https://registry.yarnpkg.com/@ethersproject/providers/-/providers-5.7.2.tgz#f8b1a4f275d7ce58cf0a2eec222269a08beb18cb"
   integrity sha512-g34EWZ1WWAVgr4aptGlVBF8mhl3VWjv+8hoAnzStu8Ah22VHBsuGzP17eb6xDVRzw895G4W7vvx60lFFur/1Rg==
@@ -369,35 +369,40 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@masa-finance/masa-contracts-identity@^1.12.0-alpha.2":
+"@masa-finance/masa-contracts-identity@^1.12.0":
   version "1.12.0"
   resolved "https://registry.yarnpkg.com/@masa-finance/masa-contracts-identity/-/masa-contracts-identity-1.12.0.tgz#29e83ad6d0c91f98f0bfdae1073cd5cbe6d1b045"
   integrity sha512-BUd7yuxZBuM08boBz77i7cXUlt51smcbjIOhw5dR82fYyis5LwzmokSE/5JJWdIO6M9VYgpeiAQrSWoh3LzHlA==
   dependencies:
     ethers "~5.7.2"
 
-"@masa-finance/masa-express@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@masa-finance/masa-express/-/masa-express-1.3.1.tgz#1cbb43cd15778f16f4310dc3c326e3fa248ff3d8"
-  integrity sha512-ltm1+Yj4fwEyQZZZbAYgse31wNiqMxL6+uOkjC5805N8qA4u5H7q7dyJn3xtIx4s7M/wZ2cxA6qD83E6IcB+Qg==
+"@masa-finance/masa-express@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@masa-finance/masa-express/-/masa-express-1.3.3.tgz#8ccd1a495e2924531b1c7db10320c655d83e56cc"
+  integrity sha512-VmG3zQ+kOuwWfx3GKO+7lHTMcA5mO1CmJ1fzpXwsYRWH+jXyT63i/J8CosQQvliB1fo4/iYC9yUkEtZxuCk5yA==
   dependencies:
-    "@masa-finance/masa-sdk" "^3.12.2"
+    "@masa-finance/masa-sdk" "^3.14.6"
     express "^4.18.2"
     express-session "^1.17.3"
     uuid "^9.0.1"
 
-"@masa-finance/masa-sdk@^3.12.2":
-  version "3.12.2"
-  resolved "https://registry.yarnpkg.com/@masa-finance/masa-sdk/-/masa-sdk-3.12.2.tgz#b9280c1f9d66771956bcb8e42eabc8b95f75f30b"
-  integrity sha512-+OsHSdCrt3+a/Ictj0bjWUfbmj6uc2kJpBgsr5uUfIF8gk/OU1RLP6sT9ADHFuuF2+UKa+UFpdneWZFSqU12yw==
+"@masa-finance/masa-sdk@^3.14.6":
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/@masa-finance/masa-sdk/-/masa-sdk-3.15.0.tgz#b98441142b21d8035085f12a1272550de77625b2"
+  integrity sha512-58Qf5Nu+1sV4/Yz6/0oJFhRrU29qXPBle//WZcBFzQVNBt+kvpcZQI946YkgOzKQl5MzkuFzvti05S9qNninMg==
   dependencies:
-    "@masa-finance/masa-contracts-identity" "^1.12.0-alpha.2"
+    "@ethersproject/abi" "^5.7.0"
+    "@ethersproject/abstract-provider" "^5.7.0"
+    "@ethersproject/abstract-signer" "^5.7.0"
+    "@ethersproject/bignumber" "^5.7.0"
+    "@ethersproject/providers" "^5.7.2"
+    "@masa-finance/masa-contracts-identity" "^1.12.0"
     "@masa-finance/masa-token" "^2.0.0"
     arweave "1.11.8"
-    axios "^1.3.2"
+    axios "^1.6.5"
     ethers "~5.7.2"
     grapheme-splitter "^1.0.4"
-    typescript "^5.0.2"
+    typescript "^5.3.3"
 
 "@masa-finance/masa-token@^2.0.0":
   version "2.0.0"
@@ -617,12 +622,12 @@ axios@^0.27.2:
     follow-redirects "^1.14.9"
     form-data "^4.0.0"
 
-axios@^1.3.2:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.4.0.tgz#38a7bf1224cd308de271146038b551d725f0be1f"
-  integrity sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==
+axios@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.5.tgz#2c090da14aeeab3770ad30c3a1461bc970fb0cd8"
+  integrity sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==
   dependencies:
-    follow-redirects "^1.15.0"
+    follow-redirects "^1.15.4"
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
 
@@ -953,10 +958,15 @@ finalhandler@1.2.0:
     statuses "2.0.1"
     unpipe "~1.0.0"
 
-follow-redirects@^1.14.9, follow-redirects@^1.15.0:
+follow-redirects@^1.14.9:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
+
+follow-redirects@^1.15.4:
+  version "1.15.5"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.5.tgz#54d4d6d062c0fa7d9d17feb008461550e3ba8020"
+  integrity sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==
 
 for-each@^0.3.3:
   version "0.3.3"
@@ -1490,7 +1500,7 @@ type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typescript@^5.0.2, typescript@^5.3.3:
+typescript@^5.3.3:
   version "5.3.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.3.3.tgz#b3ce6ba258e72e6305ba66f5c9b452aaee3ffe37"
   integrity sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==
